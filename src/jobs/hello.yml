@@ -2,7 +2,9 @@ description: >
   Sample description
 # What will this job do?
 
-executor: default
+executor:
+  docker:
+    - image: cimg/base:current
 
 parameters:
   to:
