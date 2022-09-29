@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   aws-health: circleci/aws-health@dev:<<pipeline.git.revision>>
   orb-tools: circleci/orb-tools@11.3
+  aws-cli: circleci/aws-cli@3.1
 
 filters: &filters
   tags:
@@ -46,6 +47,7 @@ workflows:
             - integration-test-docker-base
             - integration-test-windows
             - integration-test-macos
+            - command-tests
           context: orb-publisher
           filters:
             branches:
