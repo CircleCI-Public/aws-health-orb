@@ -6,7 +6,7 @@ description: >
 parameters:
   aws-region-to-check:
     type: env_var_name
-    default: AWS_REGION
+    default: AWS_DEFAULT_REGION
     description: >
       The AWS region to be checked for issues. It defaults to AWS_REGION that's set as an environment varaible
   max-poll-attempts:

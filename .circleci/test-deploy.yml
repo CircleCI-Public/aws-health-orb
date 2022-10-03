@@ -19,6 +19,7 @@ workflows:
   test-deploy:
     jobs:
       - command-tests:
+          context: CPE_ORBS_AWS
           filters: *filters
       - orb-tools/pack:
           filters: *filters
