@@ -1,6 +1,6 @@
 description: >
   This command checks the specified AWS region for any issues. The command passes if there are no issues found.
-  If there are issues in the region, the command will continute to check for issues every 10 seconds until 
+  If there are issues in the region, the command will continute to check for issues every 10 seconds until
   no issues are dectected. If the max attempts have been reached, the commad will fail.
 
 parameters:
@@ -12,7 +12,7 @@ parameters:
   max-poll-attempts:
     type: integer
     default: 6
-    description: > 
+    description: >
       The max number of attempts to recheck for issues in the specified AWS region. Each attempt takes
       10 seconds. By default, 6 attempts will be made for a total of 1 minute.
 steps:
