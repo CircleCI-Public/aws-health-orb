@@ -11,7 +11,7 @@ filters: &filters
 jobs:
   command-tests:
     docker:
-      - image: cimg/base:current
+      - image: cimg/aws:2022.09
     steps:
       - aws-health/check-health
 workflows:
