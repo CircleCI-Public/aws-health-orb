@@ -15,7 +15,35 @@ parameters:
     description: >
       The max number of attempts to recheck for issues in the specified AWS region. Each attempt takes
       10 seconds. By default, 6 attempts will be made for a total of 1 minute.
+  aws-access-key-id:
+    type: env_var_name
+    description: aws access key id override
+    default: AWS_ACCESS_KEY_ID
+  aws-secret-access-key:
+    type: env_var_name
+    description: aws secret access key override
+    default: AWS_SECRET_ACCESS_KEY
+  aws-region:
+    type: env_var_name
+    description: aws region override
+    default: AWS_REGION
+  profile-name:
+    description: AWS profile name to be configured.
+    type: string
+    default: ''
+  install-aws-cli:
+    description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
+    type: boolean
+    default: true
 steps:
+  - when:
+      condition: <<parameters.install-aws-cli>>
+      steps:
+        - aws-cli/setup:
+            aws-access-key-id: << parameters.aws-access-key-id >>
+            aws-secret-access-key: << parameters.aws-secret-access-key >>
+            aws-region: << parameters.aws-region >>
+            profile-name: << parameters.profile-name >>
   - run:
       name: Checking Health of AWS region.
       environment:
