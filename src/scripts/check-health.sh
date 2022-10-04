@@ -1,12 +1,12 @@
-#shellcheck disable=2148
-if grep "Alpine" < /etc/issue >/dev/null 2>&1; then
-    if [ "$ID" = 0 ]; then export SUDO=""; else export SUDO="sudo"; fi
+#!/bin/sh
+user="$(id -u)"
+if [ "$user" -ne 0 ]; then export SUDO="sudo"; else export SUDO=""; fi
+if grep "Alpine" < /etc/issue > /dev/null 2>&1; then
     if [ "$(jq --version > /dev/null; echo $?)" -ne 0 ]; then
         $SUDO apk update
         $SUDO apk add jq
     fi
  else
-    if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
     if [ "$(jq --version > /dev/null; echo $?)" -ne 0 ]; then
         $SUDO apt update
         $SUDO apt install jq
