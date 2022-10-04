@@ -47,7 +47,6 @@ workflows:
             - integration-test-docker-base
             - integration-test-windows
             - integration-test-macos
-            - command-tests
           context: orb-publisher
           filters:
             branches:

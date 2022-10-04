@@ -66,3 +66,4 @@ steps:
       role-arn: << parameters.role-arn >>
       role-session-name: << parameters.role-session-name >>
       session-duration: << parameters.session-duration >>
+
