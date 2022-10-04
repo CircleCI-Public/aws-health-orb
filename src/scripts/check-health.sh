@@ -1,3 +1,4 @@
+#shellcheck disable=2148
 if grep "Alpine" < /etc/issue >/dev/null 2>&1; then
     if [ "$ID" = 0 ]; then export SUDO=""; else export SUDO="sudo"; fi
     if [ "$(jq --version > /dev/null; echo $?)" -ne 0 ]; then
