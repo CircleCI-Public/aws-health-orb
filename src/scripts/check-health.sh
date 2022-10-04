@@ -26,7 +26,7 @@ do
     if [ "${AWS_EVENTS}" = "[]" ]; then
         echo "No issues found in ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region";
         exit 0;
-    elif [ i = "$PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS" ]; then
+    elif [ $i = "$PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS" ]; then
         echo "Max attempts reached. Issues found in ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region:"
         echo "${AWS_EVENTS}"
         exit 1;

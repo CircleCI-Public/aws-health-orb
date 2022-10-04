@@ -15,7 +15,7 @@ executors:
       - image: cimg/base:stable
   windows:
     machine:
-      image: windows-server-2019-vs2019:stable
+      image: windows-server-2022-gui:current
     shell: bash.exe
     resource_class: windows.medium
   macos:
@@ -25,9 +25,11 @@ workflows:
   test-deploy:
     jobs:
       - aws-health/check-health:
-          name: integration-test
+          name: integration-test-<<matrix.executor>>
           context: CPE_ORBS_AWS
-          executor: alpine
+          matrix:
+            parameters:
+              executor: [ "alpine", "docker-base", "windows", "macos" ]
           filters: *filters
       - orb-tools/pack:
           filters: *filters
@@ -37,7 +39,10 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
-            - integration-test
+            - integration-test-alpine
+            - integration-test-docker-base
+            - integration-test-windows
+            - integration-test-macos
           context: orb-publisher
           filters:
             branches:
