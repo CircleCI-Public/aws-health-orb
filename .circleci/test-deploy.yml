@@ -1,24 +1,33 @@
 version: 2.1
 orbs:
   aws-health: circleci/aws-health@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.1
-  aws-cli: circleci/aws-cli@3.1
+  orb-tools: circleci/orb-tools@11.3
 
 filters: &filters
   tags:
     only: /.*/
-
-jobs:
-  command-tests:
+executors:
+  alpine:
+    docker: 
+      - image: alpine:latest
+  docker-base:
     docker:
-      - image: cimg/base:current
-    steps:
-      - aws-health/check-health
+      - image: cimg/base:stable
+  windows:
+    machine:
+      image: windows-server-2019-vs2019:stable
+    shell: bash.exe
+    resource_class: windows.medium
+  macos:
+    macos:
+      xcode: 13.3
 workflows:
   test-deploy:
     jobs:
-      - command-tests:
+      - aws-health/check-health:
+          name: integration-test
           context: CPE_ORBS_AWS
+          executor: alpine
           filters: *filters
       - orb-tools/pack:
           filters: *filters
@@ -28,7 +37,7 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
-            - command-tests
+            - integration-test
           context: orb-publisher
           filters:
             branches:
