@@ -17,7 +17,7 @@ parameters:
       10 seconds. By default, 6 attempts will be made for a total of 1 minute.
 steps:
   - run:
-      name: Checking Health of <<parameters.aws-region-to-check>>
+      name: Checking Health of AWS region.
       environment:
         PARAM_AWS_HEALTH_REGION_TO_CHECK: <<parameters.aws-region-to-check>>
         PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: <<parameters.max-poll-attempts>>
