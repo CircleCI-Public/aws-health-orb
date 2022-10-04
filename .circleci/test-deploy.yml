@@ -13,12 +13,12 @@ jobs:
     docker:
       - image: cimg/base:current
     steps:
-      - checkout
-      - aws-health/greet
+      - aws-health/check-health
 workflows:
   test-deploy:
     jobs:
       - command-tests:
+          context: CPE_ORBS_AWS
           filters: *filters
       - orb-tools/pack:
           filters: *filters
