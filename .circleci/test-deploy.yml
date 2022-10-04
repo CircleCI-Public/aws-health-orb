@@ -13,7 +13,6 @@ jobs:
     docker:
       - image: cimg/base:current
     steps:
-      - checkout
       - aws-health/check-health
 workflows:
   test-deploy:
