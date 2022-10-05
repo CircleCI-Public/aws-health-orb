@@ -53,7 +53,7 @@ parameters:
     default: true
 steps:
   - when:
-      condition: <<parameters.install-aws-cli>>
+      condition: << parameters.install-aws-cli >>
       steps:
         - when:
             condition: <<parameters.role-arn>>
@@ -75,6 +75,6 @@ steps:
   - run:
       name: Checking Health of AWS <<parameters.aws-region-to-check>>
       environment:
-        PARAM_AWS_HEALTH_REGION_TO_CHECK: <<parameters.aws-region-to-check>>
-        PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: <<parameters.max-poll-attempts>>
-      command: <<include(scripts/check-health.sh)>>
+        PARAM_AWS_HEALTH_REGION_TO_CHECK: << parameters.aws-region-to-check >>
+        PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: << parameters.max-poll-attempts >>
+      command: << include(scripts/check-health.sh) >>
