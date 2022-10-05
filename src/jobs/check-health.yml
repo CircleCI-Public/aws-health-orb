@@ -9,8 +9,8 @@ parameters:
   executor:
     type: executor
   aws-region-to-check:
-    type: env_var_name
-    default: AWS_REGION
+    type: string
+    default: ${AWS_REGION}
     description: >
       The AWS region to be checked for issues. It defaults to AWS_REGION that's set as an environment variable
   max-poll-attempts:
@@ -35,6 +35,20 @@ parameters:
     description: AWS profile name to be configured.
     type: string
     default: ''
+  role-arn:
+    description: |
+      The Amazon Resource Name (ARN) of the role that the caller is assuming.
+      Role ARN must be configured for web identity.
+    type: string
+    default: ""
+  role-session-name:
+    description: An identifier for the assumed role session. Environment variables will be evaluated.
+    type: string
+    default: ${CIRCLE_JOB}
+  session-duration:
+    description: The duration of the session in seconds
+    type: string
+    default: "3600"
   install-aws-cli:
     description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
     type: boolean
@@ -49,3 +63,6 @@ steps:
       aws-region-to-check: << parameters.aws-region-to-check >>
       max-poll-attempts: << parameters.max-poll-attempts >>
       install-aws-cli: << parameters.install-aws-cli >>
+      role-arn: << parameters.role-arn >>
+      role-session-name: << parameters.role-session-name >>
+      session-duration: << parameters.session-duration >>

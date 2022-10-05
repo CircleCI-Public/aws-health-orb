@@ -1,19 +1,21 @@
 #!/bin/sh
 user="$(id -u)"
 if [ "$user" -ne 0 ]; then export SUDO="sudo"; else export SUDO=""; fi
-if grep "Alpine" < /etc/issue > /dev/null 2>&1; then
-    if [ "$(jq --version > /dev/null; echo $?)" -ne 0 ]; then
+if grep "Alpine" /etc/issue > /dev/null 2>&1; then
+    #shellcheck disable=1090
+    . "${BASH_ENV}"
+    if ! command -v jq > /dev/null 2>&1; then
         $SUDO apk update
         $SUDO apk add jq
     fi
  else
-    if [ "$(jq --version > /dev/null; echo $?)" -ne 0 ]; then
+    if ! command -v jq > /dev/null 2>&1; then
         $SUDO apt update
         $SUDO apt install jq
     fi
 fi
 
-PARAM_AWS_HEALTH_REGION_TO_CHECK=$(eval echo "\$$PARAM_AWS_HEALTH_REGION_TO_CHECK")
+PARAM_AWS_HEALTH_REGION_TO_CHECK="$(eval echo "$PARAM_AWS_HEALTH_REGION_TO_CHECK")"
 
 FILTER="{\"regions\": ["\"${PARAM_AWS_HEALTH_REGION_TO_CHECK}\""],\"eventTypeCategories\": [\"issue\"], \"eventStatusCodes\": [\"open\",\"upcoming\"]}"
 echo "Checking Health for ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region"
@@ -26,7 +28,7 @@ do
     if [ "${AWS_EVENTS}" = "[]" ]; then
         echo "No issues found in ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region";
         exit 0;
-    elif [ $i -eq "$PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS" ]; then
+    elif [ "$i" -eq "$PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS" ]; then
         echo "Max attempts reached. Issues found in ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region:"
         echo "${AWS_EVENTS}"
         exit 1;
