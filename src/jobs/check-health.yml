@@ -47,5 +47,5 @@ steps:
       aws-region: << parameters.aws-region >>
       profile-name: << parameters.profile-name >>
       aws-region-to-check: << parameters.aws-region-to-check >>
-      max-poll-attempts: <<parameters.max-poll-attempts>>
+      max-poll-attempts: << parameters.max-poll-attempts >>
       install-aws-cli: << parameters.install-aws-cli >>

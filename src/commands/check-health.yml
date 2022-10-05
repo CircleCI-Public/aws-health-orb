@@ -39,7 +39,7 @@ parameters:
     default: true
 steps:
   - when:
-      condition: <<parameters.install-aws-cli>>
+      condition: << parameters.install-aws-cli >>
       steps:
         - aws-cli/setup:
             aws-access-key-id: << parameters.aws-access-key-id >>
@@ -49,6 +49,6 @@ steps:
   - run:
       name: Checking Health of AWS region.
       environment:
-        PARAM_AWS_HEALTH_REGION_TO_CHECK: <<parameters.aws-region-to-check>>
-        PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: <<parameters.max-poll-attempts>>
-      command: <<include(scripts/check-health.sh)>>
+        PARAM_AWS_HEALTH_REGION_TO_CHECK: << parameters.aws-region-to-check >>
+        PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: << parameters.max-poll-attempts >>
+      command: << include(scripts/check-health.sh) >>
