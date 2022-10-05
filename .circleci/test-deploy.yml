@@ -6,18 +6,30 @@ orbs:
 filters: &filters
   tags:
     only: /.*/
-
-jobs:
-  command-tests:
+executors:
+  alpine:
+    docker: 
+      - image: alpine:latest
+  docker-base:
     docker:
       - image: cimg/base:current
-    steps:
-      - aws-health/check-health
+  windows:
+    machine:
+      image: windows-server-2022-gui:current
+    shell: bash.exe
+    resource_class: windows.medium
+  macos:
+    macos:
+      xcode: 13.3
 workflows:
   test-deploy:
     jobs:
-      - command-tests:
+      - aws-health/check-health:
+          name: integration-test-<<matrix.executor>>
           context: CPE_ORBS_AWS
+          matrix:
+            parameters:
+              executor: [ "alpine", "docker-base", "windows", "macos" ]
           filters: *filters
       - orb-tools/pack:
           filters: *filters
@@ -27,7 +39,10 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
-            - command-tests
+            - integration-test-alpine
+            - integration-test-docker-base
+            - integration-test-windows
+            - integration-test-macos
           context: orb-publisher
           filters:
             branches:

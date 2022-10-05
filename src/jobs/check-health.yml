@@ -1,11 +1,13 @@
 description: >
-  This command checks the specified AWS region for any issues. The command passes if there are no issues found.
-  If there are issues in the region, the command will continue to check for issues every 10 seconds until
-  no issues are detected. If the max attempts have been reached, the command will fail.
+  This job checks the specified AWS region for any issues. The job passes if there are no issues found.
+  If there are issues in the region, the job will continue to check for issues every 10 seconds until
+  no issues are detected. If the max attempts have been reached, the job will fail.
 
-  NOTE: This command requires jq. It will check for jq and install it if necessary.
+executor: <<parameters.executor>>
 
 parameters:
+  executor:
+    type: executor
   aws-region-to-check:
     type: env_var_name
     default: AWS_REGION
@@ -37,18 +39,13 @@ parameters:
     description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
     type: boolean
     default: true
+
 steps:
-  - when:
-      condition: << parameters.install-aws-cli >>
-      steps:
-        - aws-cli/setup:
-            aws-access-key-id: << parameters.aws-access-key-id >>
-            aws-secret-access-key: << parameters.aws-secret-access-key >>
-            aws-region: << parameters.aws-region >>
-            profile-name: << parameters.profile-name >>
-  - run:
-      name: Checking Health of AWS region.
-      environment:
-        PARAM_AWS_HEALTH_REGION_TO_CHECK: << parameters.aws-region-to-check >>
-        PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: << parameters.max-poll-attempts >>
-      command: << include(scripts/check-health.sh) >>
+  - check-health:
+      aws-access-key-id: << parameters.aws-access-key-id >>
+      aws-secret-access-key: << parameters.aws-secret-access-key >>
+      aws-region: << parameters.aws-region >>
+      profile-name: << parameters.profile-name >>
+      aws-region-to-check: << parameters.aws-region-to-check >>
+      max-poll-attempts: << parameters.max-poll-attempts >>
+      install-aws-cli: << parameters.install-aws-cli >>
