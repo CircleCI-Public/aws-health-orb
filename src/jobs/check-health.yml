@@ -28,9 +28,9 @@ parameters:
     description: aws secret access key override
     default: AWS_SECRET_ACCESS_KEY
   aws-region:
-    type: env_var_name
+    type: string
     description: aws region override
-    default: AWS_REGION
+    default: ${AWS_REGION}
   profile-name:
     description: AWS profile name to be configured.
     type: string
