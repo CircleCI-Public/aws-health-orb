@@ -12,7 +12,7 @@ executors:
       - image: alpine:latest
   docker-base:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/base:current
   windows:
     machine:
       image: windows-server-2022-gui:current
