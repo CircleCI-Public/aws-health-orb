@@ -48,7 +48,7 @@ parameters:
   session-duration:
     description: The duration of the session in seconds
     type: string
-    default: "3600"    
+    default: "3600"
   install-aws-cli:
     description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
     type: boolean
