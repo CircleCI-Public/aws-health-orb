@@ -73,7 +73,7 @@ steps:
                   aws-region: << parameters.aws-region >>
                   profile-name: << parameters.profile-name >>
   - run:
-      name: Checking Health of AWS region.
+      name: Checking Health of AWS <<parameters.aws-region-to-check>>
       environment:
         PARAM_AWS_HEALTH_REGION_TO_CHECK: <<parameters.aws-region-to-check>>
         PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: <<parameters.max-poll-attempts>>

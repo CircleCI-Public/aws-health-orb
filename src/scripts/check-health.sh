@@ -13,7 +13,7 @@ if grep "Alpine" < /etc/issue > /dev/null 2>&1; then
     fi
 fi
 
-PARAM_AWS_HEALTH_REGION_TO_CHECK=$(eval echo "\$$PARAM_AWS_HEALTH_REGION_TO_CHECK")
+PARAM_AWS_HEALTH_REGION_TO_CHECK=$(eval echo "$PARAM_AWS_HEALTH_REGION_TO_CHECK")
 
 FILTER="{\"regions\": ["\"${PARAM_AWS_HEALTH_REGION_TO_CHECK}\""],\"eventTypeCategories\": [\"issue\"], \"eventStatusCodes\": [\"open\",\"upcoming\"]}"
 echo "Checking Health for ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region"
