@@ -2,6 +2,8 @@
 user="$(id -u)"
 if [ "$user" -ne 0 ]; then export SUDO="sudo"; else export SUDO=""; fi
 if grep "Alpine" < /etc/issue > /dev/null 2>&1; then
+    #shellcheck disable=1090
+    . "${BASH_ENV}"
     if [ "$(jq --version > /dev/null; echo $?)" -ne 0 ]; then
         $SUDO apk update
         $SUDO apk add jq
