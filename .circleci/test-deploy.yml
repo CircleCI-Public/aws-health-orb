@@ -29,7 +29,7 @@ workflows:
           context: CPE-OIDC
           role-arn: arn:aws:iam::122211685980:role/CPE_HEALTH_OIDC_TEST
           profile-name: "OIDC-User"
-          aws-region: "us-west-2"
+          aws-region-to-check: "us-west-2"
           matrix:
             parameters:
               executor: [ "alpine", "docker-base", "windows", "macos" ]
