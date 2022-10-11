@@ -1,5 +1,7 @@
 description: >
-  Sample example description.
+  This example demonstrates the usage of the aws-health/check-health command to check for issues before
+  updating an ECS service. If aws-health/check-health command detects issus, the command fails and prevents
+  the aws-ecs/update-service command from deploying a service to a region that's down. 
 
 usage:
   version: 2.1
@@ -16,6 +18,7 @@ usage:
         - aws-health/check-health:
             aws-region-to-check: "us-west-1"
             max-poll-attempts: 10
+            # Provide a valid role-arn to use OIDC
             role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
         # This command only runs if the above command does not detect issues    
         - aws-ecs/update-service:
