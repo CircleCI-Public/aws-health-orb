@@ -1,13 +1,29 @@
 description: >
   Sample example description.
-# Provide a use-case based example for using this orb.
-# Everything in the `usage` section will be displayed in the orb registry.
-# Comments are not retained.
+
 usage:
   version: 2.1
   orbs:
-    <orb-name>: <namespace>/<orb-name>@1.2.3
+    aws-health: circleci/aws-health@1.0
+    aws-cli: circleci/aws-cli@3.1
+    aws-ecs: circleci/aws-ecs@3.2
+  job: 
+    check-health-and-deploy:
+      docker:
+        - image: cimg/base:current
+      steps:
+        # Check health of us-west-1 region before updating ecs service
+        - aws-health/check-health:
+            aws-region-to-check: "us-west-1"
+            max-poll-attempts: 10
+            role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
+        # This command only runs if the above command does not detect issues    
+        - aws-ecs/update-service:
+            family: '${MY_APP_PREFIX}-service'
+            cluster: '${MY_APP_PREFIX}-cluster'
   workflows:
-    use-my-orb:
+    update-service:
       jobs:
-        - <orb-name>/<job-name>
+        - check-health-and-deploy:
+            context: [CircleCI-OIDC-Token]
+
