@@ -17,12 +17,15 @@ usage:
             max-poll-attempts: 10
             # Provide a valid role-arn to use OIDC
             role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
+            context: [CircleCI-OIDC-Token]
         - aws-ecs/deploy-service-update:
             # By requiring the job above, this job only runs if aws-health/check-health job passes
             requires:
               - aws-health/check-health
             family: '${MY_APP_PREFIX}-service'
-            cluster: '${MY_APP_PREFIX}-cluster'        
+            cluster: '${MY_APP_PREFIX}-cluster'   
+            role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
+            context: [CircleCI-OIDC-Token]     
         
 
 
