@@ -1,7 +1,7 @@
 description: >
   This example demonstrates the usage of the aws-health/check-health command to check for issues before
-  updating an ECS service. If aws-health/check-health command detects issus, the command fails and prevents
-  the aws-ecs/update-service command from deploying a service to a region that's down. 
+  updating an ECS service. If aws-health/check-health command detects issues, the command fails and prevents
+  the aws-ecs/update-service command from deploying a service to a region that's unavailable. 
 
 usage:
   version: 2.1
