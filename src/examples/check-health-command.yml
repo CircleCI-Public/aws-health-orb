@@ -9,7 +9,7 @@ usage:
     aws-health: circleci/aws-health@1.0
     aws-cli: circleci/aws-cli@3.1
     aws-ecs: circleci/aws-ecs@3.2
-  job:
+  job: 
     check-health-and-deploy:
       docker:
         - image: cimg/base:current
@@ -29,4 +29,3 @@ usage:
       jobs:
         - check-health-and-deploy:
             context: [CircleCI-OIDC-Token]
-
