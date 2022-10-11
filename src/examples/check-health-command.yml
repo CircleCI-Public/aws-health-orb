@@ -20,7 +20,7 @@ usage:
             max-poll-attempts: 10
             # Provide a valid role-arn to use OIDC
             role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
-        # This command only runs if the above command does not detect issues 
+        # This command only runs if the above command does not detect issues
         - aws-ecs/update-service:
             family: '${MY_APP_PREFIX}-service'
             cluster: '${MY_APP_PREFIX}-cluster'
