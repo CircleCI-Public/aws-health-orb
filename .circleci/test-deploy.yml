@@ -43,10 +43,7 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
-            - integration-test-alpine
-            - integration-test-docker-base
-            - integration-test-windows
-            - integration-test-macos
+            - integration-test-<<matrix.executor>>
           context: orb-publisher
           filters:
             branches:
