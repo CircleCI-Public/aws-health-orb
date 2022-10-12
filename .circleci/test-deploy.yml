@@ -32,6 +32,7 @@ workflows:
           profile-name: "OIDC-User"
           aws-region-to-check: "us-west-2"
           matrix:
+            alias: integration-test
             parameters:
               executor: [ "alpine", "docker-base", "windows", "macos" ]
           filters: *filters
@@ -41,9 +42,6 @@ workflows:
           orb-name: circleci/aws-health
           vcs-type: << pipeline.project.type >>
           pub-type: production
-          matrix:
-            parameters:
-              alias: integration-test
           requires:
             - orb-tools/pack
             - integration-test
