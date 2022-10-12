@@ -42,11 +42,10 @@ workflows:
           vcs-type: << pipeline.project.type >>
           pub-type: production
           matrix:
-            parameters:
-              executor: [ "alpine", "docker-base", "windows", "macos" ]
+            alias: integration-test
           requires:
             - orb-tools/pack
-            - integration-test-<<matrix.executor>>
+            - integration-test
           context: orb-publisher
           filters:
             branches:
