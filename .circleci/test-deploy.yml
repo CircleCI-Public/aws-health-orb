@@ -41,6 +41,9 @@ workflows:
           orb-name: circleci/aws-health
           vcs-type: << pipeline.project.type >>
           pub-type: production
+          matrix:
+            parameters:
+              executor: [ "alpine", "docker-base", "windows", "macos" ]
           requires:
             - orb-tools/pack
             - integration-test-<<matrix.executor>>
