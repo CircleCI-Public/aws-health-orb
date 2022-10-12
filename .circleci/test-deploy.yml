@@ -42,7 +42,8 @@ workflows:
           vcs-type: << pipeline.project.type >>
           pub-type: production
           matrix:
-            alias: integration-test
+            parameters:
+              alias: integration-test
           requires:
             - orb-tools/pack
             - integration-test
