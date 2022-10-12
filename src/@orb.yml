@@ -1,0 +1,15 @@
+version: 2.1
+
+description: >
+  This orb enables users to check the health of a specific AWS region for any issues. If there are issues
+  detected, the aws-health/health-check command waits for the issue to be resolved before continuing on to
+  next steps in the job. If the issue is not resolved before the maximum check attempts have been reached,
+  the job will fail. This is especially useful during deployments. The AWS Health Orb can help prevent
+  deployments to an AWS region with known issues.
+
+display:
+  home_url: "https://docs.aws.amazon.com/health/latest/ug/health-api.html"
+  source_url: "https://github.com/CircleCI-Public/aws-health-orb"
+
+orbs:
+  aws-cli: circleci/aws-cli@3.1

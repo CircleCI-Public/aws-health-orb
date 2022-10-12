@@ -1,0 +1,31 @@
+description: >
+  This example demonstrates the usage of the aws-health/check-health job to check for issues before
+  deploying an ECS service update. If aws-health/check-health job detects issues, the job fails and prevents
+  the aws-ecs/deploy-service-update job from deploying a service update to the region that's unavailable.
+
+usage:
+  version: 2.1
+  orbs:
+    aws-health: circleci/aws-health@1.0
+    aws-cli: circleci/aws-cli@3.1
+    aws-ecs: circleci/aws-ecs@3.2
+  workflows:
+    check-health-and-deploy:
+      jobs:
+        - aws-health/check-health:
+            aws-region-to-check: "us-west-1"
+            max-poll-attempts: 10
+            # Provide a valid role-arn to use OIDC
+            role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
+            context: [CircleCI-OIDC-Token]
+        - aws-ecs/deploy-service-update:
+            # By requiring the job above, this job only runs if aws-health/check-health job passes
+            requires:
+              - aws-health/check-health
+            family: '${MY_APP_PREFIX}-service'
+            cluster: '${MY_APP_PREFIX}-cluster'
+            role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
+            context: [CircleCI-OIDC-Token]
+
+
+
