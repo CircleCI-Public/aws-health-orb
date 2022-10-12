@@ -1,7 +1,7 @@
 description: >
   This example demonstrates the usage of the aws-health/check-health job to check for issues before
-  deploying an ECS service update. If aws-health/check-health job detects issue, the job fails and prevents
-  the aws-ecs/deploy-service-update job from deploying a service update to a region that's unavailable.
+  deploying an ECS service update. If aws-health/check-health job detects issues, the job fails and prevents
+  the aws-ecs/deploy-service-update job from deploying a service update to the region that's unavailable.
 
 usage:
   version: 2.1
