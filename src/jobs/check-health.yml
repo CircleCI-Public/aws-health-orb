@@ -3,11 +3,7 @@ description: >
   If there are issues in the region, the job will continue to check for issues every 10 seconds until
   no issues are detected. If the max attempts have been reached, the job will fail.
 
-executor: <<parameters.executor>>
-
 parameters:
-  executor:
-    type: executor
   aws-region-to-check:
     type: string
     default: ${AWS_REGION}
@@ -54,7 +50,8 @@ parameters:
     description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
     type: boolean
     default: true
-
+docker:
+  - image: cimg/aws:2023.03
 steps:
   - check-health:
       aws-access-key-id: << parameters.aws-access-key-id >>
