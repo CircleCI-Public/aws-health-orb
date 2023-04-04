@@ -12,7 +12,7 @@ usage:
   workflows:
     check-health-and-deploy:
       jobs:
-        - aws-cli/setup      
+        - aws-cli/setup
         - aws-health/check-health:
             aws-region-to-check: "us-west-1"
             max-poll-attempts: 10
