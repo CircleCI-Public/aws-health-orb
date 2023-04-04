@@ -20,6 +20,11 @@ parameters:
     description: AWS profile name to be configured.
     type: string
     default: "default"
+  auth:
+    description: |
+      The authentication method used to access your AWS account. Import the aws-cli orb in your config and
+      provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
+    type: steps
   image-tag:
     description: >
       The tag for the cimg/aws image. It defaults to 2023.03. For more information, please visit the image registry at
@@ -29,6 +34,7 @@ parameters:
 docker:
   - image: cimg/aws:<< parameters.image-tag >>
 steps:
+  - steps: << parameters.auth >>
   - check-health:
       profile-name: << parameters.profile-name >>
       aws-region-to-check: << parameters.aws-region-to-check >>
