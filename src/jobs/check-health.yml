@@ -50,8 +50,14 @@ parameters:
     description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
     type: boolean
     default: true
+  image-tag:
+    description: >
+      The tag for the cimg/aws image. It defaults to 2023.03. For more information, please visit the image registry at
+      https://circleci.com/developer/images/image/cimg/aws
+    type: string
+    default: "2023.03"
 docker:
-  - image: cimg/aws:2023.03
+  - image: cimg/aws:<< parameters.image-tag >>
 steps:
   - check-health:
       aws-access-key-id: << parameters.aws-access-key-id >>
