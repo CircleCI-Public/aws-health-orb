@@ -1,0 +1,26 @@
+description: >
+  Check for outages in a specific AWS region with the aws-health/check-health using static AWS keys for authentication.
+  Import the aws-cli orb and authenticate using the aws-cli/setup command with
+  static AWS keys stored as env_vars (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY).
+usage:
+  version: 2.1
+  orbs:
+    aws-health: circleci/aws-health@1.0
+    # Importing aws-cli orb is required for authentication
+    aws-cli: circleci/aws-cli@3.1
+
+  workflows:
+    check-health-and-deploy:
+      jobs:
+        - aws-health/check-health:
+            auth:
+              # Configure aws credentials with static keys stored as env_vars (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)
+              - aws-cli/setup:
+                  profile: "OIDC-USER"
+                  role-arn: "arn:aws:iam::123456789012:role/VALID_OIDC_CODEDEPLOY_ROLE"
+            aws-region-to-check: "us-west-1"
+            context: [CircleCI-OIDC-Token]
+
+
+
+
