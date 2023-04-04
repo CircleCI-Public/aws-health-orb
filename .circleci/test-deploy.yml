@@ -12,9 +12,12 @@ workflows:
     jobs:
       - aws-health/check-health:
           name: integration-test
-          context: CPE-OIDC
-          role-arn: arn:aws:iam::122211685980:role/CPE_HEALTH_OIDC_TEST
+          auth:
+            - aws-cli/setup:
+                role-arn: arn:aws:iam::122211685980:role/CPE_HEALTH_OIDC_TEST
+                profile-name: "OIDC-User"
           profile-name: "OIDC-User"
+          context: CPE-OIDC
           aws-region-to-check: "us-west-2"
           filters: *filters
       - orb-tools/pack:
