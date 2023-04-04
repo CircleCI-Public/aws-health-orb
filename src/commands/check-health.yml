@@ -21,11 +21,12 @@ parameters:
   profile-name:
     description: AWS profile name to be configured.
     type: string
-    default: ''
+    default: "default"
 steps:
   - run:
       name: Checking Health of AWS << parameters.aws-region-to-check >>
       environment:
         PARAM_AWS_HEALTH_REGION_TO_CHECK: << parameters.aws-region-to-check >>
         PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS: << parameters.max-poll-attempts >>
+        PARAM_AWS_HEALTH_MAX_POLL_PROFILE: << parameters.profile-name >>
       command: << include(scripts/check-health.sh) >>
