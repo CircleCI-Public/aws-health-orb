@@ -15,11 +15,13 @@ usage:
         - image: cimg/base:current
       steps:
         # Check health of us-west-1 region before updating ecs service
+        - aws-cli/setup:
+            profile: "OIDC-USER"
+            role-arn: "arn:aws:iam::123456789012:role/VALID_OIDC_CODEDEPLOY_ROLE"
         - aws-health/check-health:
+            profile: "OIDC-USER"
             aws-region-to-check: "us-west-1"
             max-poll-attempts: 10
-            # Provide a valid role-arn to use OIDC
-            role-arn: "arn:aws:iam::123456789012:role/OIDC_ARN"
         # This command only runs if the above command does not detect issues
         - aws-ecs/update-service:
             family: '${MY_APP_PREFIX}-service'

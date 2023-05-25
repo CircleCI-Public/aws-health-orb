@@ -3,11 +3,7 @@ description: >
   If there are issues in the region, the job will continue to check for issues every 10 seconds until
   no issues are detected. If the max attempts have been reached, the job will fail.
 
-executor: <<parameters.executor>>
-
 parameters:
-  executor:
-    type: executor
   aws-region-to-check:
     type: string
     default: ${AWS_REGION}
@@ -20,51 +16,27 @@ parameters:
     description: >
       The max number of attempts to recheck for issues in the specified AWS region. Each attempt takes
       10 seconds. By default, 6 attempts will be made for a total of 1 minute.
-  aws-access-key-id:
-    type: env_var_name
-    description: aws access key id override
-    default: AWS_ACCESS_KEY_ID
-  aws-secret-access-key:
-    type: env_var_name
-    description: aws secret access key override
-    default: AWS_SECRET_ACCESS_KEY
-  aws-region:
-    type: env_var_name
-    description: aws region override
-    default: AWS_REGION
   profile-name:
     description: AWS profile name to be configured.
     type: string
-    default: ''
-  role-arn:
+    default: "default"
+  auth:
     description: |
-      The Amazon Resource Name (ARN) of the role that the caller is assuming.
-      Role ARN must be configured for web identity.
+      The authentication method used to access your AWS account. Import the aws-cli orb in your config and
+      provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
+    type: steps
+  image-tag:
+    description: >
+      The tag for the cimg/aws image. It defaults to 2023.03. For more information, please visit the image registry at
+      https://circleci.com/developer/images/image/cimg/aws
     type: string
-    default: ""
-  role-session-name:
-    description: An identifier for the assumed role session. Environment variables will be evaluated.
-    type: string
-    default: ${CIRCLE_JOB}
-  session-duration:
-    description: The duration of the session in seconds
-    type: string
-    default: "3600"
-  install-aws-cli:
-    description: The aws-cli is installed when this parameter is set to true. Set to false to skip installation
-    type: boolean
-    default: true
-
+    default: "2023.03"
+docker:
+  - image: cimg/aws:<< parameters.image-tag >>
 steps:
+  - steps: << parameters.auth >>
   - check-health:
-      aws-access-key-id: << parameters.aws-access-key-id >>
-      aws-secret-access-key: << parameters.aws-secret-access-key >>
-      aws-region: << parameters.aws-region >>
       profile-name: << parameters.profile-name >>
       aws-region-to-check: << parameters.aws-region-to-check >>
       max-poll-attempts: << parameters.max-poll-attempts >>
-      install-aws-cli: << parameters.install-aws-cli >>
-      role-arn: << parameters.role-arn >>
-      role-session-name: << parameters.role-session-name >>
-      session-duration: << parameters.session-duration >>
 

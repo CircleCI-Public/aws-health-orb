@@ -24,7 +24,7 @@ i=1
 while [ "$i" -le "$PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS" ]
 do
     echo "Poll Attempt #$i"
-    AWS_EVENTS=$(aws health describe-events --filter "${FILTER}" | jq .events)
+    AWS_EVENTS=$(aws health describe-events --filter "${FILTER}" --profile "${PARAM_AWS_HEALTH_PROFILE}" | jq .events)
     if [ "${AWS_EVENTS}" = "[]" ]; then
         echo "No issues found in ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region";
         exit 0;
