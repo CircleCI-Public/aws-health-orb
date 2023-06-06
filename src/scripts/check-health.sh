@@ -15,21 +15,23 @@ if grep "Alpine" /etc/issue > /dev/null 2>&1; then
     fi
 fi
 
-PARAM_AWS_HEALTH_REGION_TO_CHECK="$(eval echo "$PARAM_AWS_HEALTH_REGION_TO_CHECK")"
+ORB_EVAL_REGION_TO_CHECK="$(circleci env subst "${ORB_EVAL_REGION_TO_CHECK}")"
+ORB_EVAL_PROFILE="$(circleci env subst "${ORB_EVAL_PROFILE}")"
 
-FILTER="{\"regions\": ["\"${PARAM_AWS_HEALTH_REGION_TO_CHECK}\""],\"eventTypeCategories\": [\"issue\"], \"eventStatusCodes\": [\"open\",\"upcoming\"]}"
-echo "Checking Health for ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region"
+
+FILTER="{\"regions\": ["\"${ORB_EVAL_REGION_TO_CHECK}\""],\"eventTypeCategories\": [\"issue\"], \"eventStatusCodes\": [\"open\",\"upcoming\"]}"
+echo "Checking Health for ${ORB_EVAL_REGION_TO_CHECK} region"
 
 i=1
-while [ "$i" -le "$PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS" ]
+while [ "$i" -le "$ORB_VAL_MAX_POLL_ATTEMPTS" ]
 do
     echo "Poll Attempt #$i"
-    AWS_EVENTS=$(aws health describe-events --filter "${FILTER}" --profile "${PARAM_AWS_HEALTH_PROFILE}" | jq .events)
+    AWS_EVENTS=$(aws health describe-events --filter "${FILTER}" --profile "${ORB_EVAL_PROFILE}" | jq .events)
     if [ "${AWS_EVENTS}" = "[]" ]; then
-        echo "No issues found in ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region";
+        echo "No issues found in ${ORB_EVAL_REGION_TO_CHECK} region";
         exit 0;
-    elif [ "$i" -eq "$PARAM_AWS_HEALTH_MAX_POLL_ATTEMPTS" ]; then
-        echo "Max attempts reached. Issues found in ${PARAM_AWS_HEALTH_REGION_TO_CHECK} region:"
+    elif [ "$i" -eq "$ORB_VAL_MAX_POLL_ATTEMPTS" ]; then
+        echo "Max attempts reached. Issues found in ${ORB_EVAL_REGION_TO_CHECK} region:"
         echo "${AWS_EVENTS}"
         exit 1;
     else
