@@ -1,37 +1,36 @@
 version: 2.1
 orbs:
-  aws-health: circleci/aws-health@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.6
-  aws-cli: circleci/aws-cli@3.1
-
+  orb-tools: circleci/orb-tools@12.0
+  aws-cli: circleci/aws-cli@4.0
+  aws-health: {}
 filters: &filters
   tags:
     only: /.*/
+release-filters: &release-filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 workflows:
   test-deploy:
     jobs:
-      - aws-health/check-health:
+      - aws-health/check_health:
           name: integration-test
           auth:
             - aws-cli/setup:
-                role-arn: arn:aws:iam::122211685980:role/CPE_HEALTH_OIDC_TEST
-                profile-name: "OIDC-User"
-          profile-name: "OIDC-User"
+                role_arn: arn:aws:iam::122211685980:role/CPE_HEALTH_OIDC_TEST
+                profile_name: "OIDC-User"
+          profile_name: "OIDC-User"
           context: CPE-OIDC
-          aws-region-to-check: "us-west-2"
+          aws_region_to_check: "us-west-2"
           filters: *filters
       - orb-tools/pack:
-          filters: *filters
+          filters: *release-filters
       - orb-tools/publish:
-          orb-name: circleci/aws-health
-          vcs-type: << pipeline.project.type >>
-          pub-type: production
-          requires:
-            - orb-tools/pack
-            - integration-test
+          orb_name: circleci/aws-health
+          vcs_type: << pipeline.project.type >>
+          pub_type: production
+          requires: [ orb-tools/pack, integration-test ]
           context: orb-publisher
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+          enable_pr_comment: true
+          filters: *release-filters
