@@ -29,5 +29,5 @@ usage:
   workflows:
     update-service:
       jobs:
-        - check_health-and-deploy:
+        - check_health_and_deploy:
             context: [CircleCI-OIDC-Token]
