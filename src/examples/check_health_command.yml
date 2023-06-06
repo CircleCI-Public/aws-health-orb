@@ -1,6 +1,6 @@
 description: >
-  This example demonstrates the usage of the aws-health/check-health command to check for issues before
-  updating an ECS service. If aws-health/check-health command detects issues, the command fails and prevents
+  This example demonstrates the usage of the aws-health/check_health command to check for issues before
+  updating an ECS service. If aws-health/check_health command detects issues, the command fails and prevents
   the aws-ecs/update-service command from deploying a service to a region that's unavailable.
 
 usage:
@@ -10,7 +10,7 @@ usage:
     aws-cli: circleci/aws-cli@3.1
     aws-ecs: circleci/aws-ecs@3.2
   job:
-    check-health-and-deploy:
+    check_health_and_deploy:
       docker:
         - image: cimg/base:current
       steps:
@@ -18,10 +18,10 @@ usage:
         - aws-cli/setup:
             profile: "OIDC-USER"
             role-arn: "arn:aws:iam::123456789012:role/VALID_OIDC_CODEDEPLOY_ROLE"
-        - aws-health/check-health:
+        - aws-health/check_health:
             profile: "OIDC-USER"
-            aws-region-to-check: "us-west-1"
-            max-poll-attempts: 10
+            aws_region_to_check: "us-west-1"
+            max_poll_attempts: 10
         # This command only runs if the above command does not detect issues
         - aws-ecs/update-service:
             family: '${MY_APP_PREFIX}-service'
@@ -29,5 +29,5 @@ usage:
   workflows:
     update-service:
       jobs:
-        - check-health-and-deploy:
+        - check_health_and_deploy:
             context: [CircleCI-OIDC-Token]

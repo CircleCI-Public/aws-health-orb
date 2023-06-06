@@ -4,19 +4,19 @@ description: >
   no issues are detected. If the max attempts have been reached, the job will fail.
 
 parameters:
-  aws-region-to-check:
+  aws_region_to_check:
     type: string
     default: ${AWS_REGION}
     description: >
-      The check-health command will check for issues in this AWS region.
+      The check_health command will check for issues in this AWS region.
       This parameter defaults to AWS_REGION that's set as an environment variable.
-  max-poll-attempts:
+  max_poll_attempts:
     type: integer
     default: 6
     description: >
       The max number of attempts to recheck for issues in the specified AWS region. Each attempt takes
       10 seconds. By default, 6 attempts will be made for a total of 1 minute.
-  profile-name:
+  profile_name:
     description: AWS profile name to be configured.
     type: string
     default: "default"
@@ -25,18 +25,18 @@ parameters:
       The authentication method used to access your AWS account. Import the aws-cli orb in your config and
       provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
     type: steps
-  image-tag:
+  image_tag:
     description: >
       The tag for the cimg/aws image. It defaults to 2023.03. For more information, please visit the image registry at
       https://circleci.com/developer/images/image/cimg/aws
     type: string
     default: "2023.03"
 docker:
-  - image: cimg/aws:<< parameters.image-tag >>
+  - image: cimg/aws:<< parameters.image_tag >>
 steps:
   - steps: << parameters.auth >>
-  - check-health:
-      profile-name: << parameters.profile-name >>
-      aws-region-to-check: << parameters.aws-region-to-check >>
-      max-poll-attempts: << parameters.max-poll-attempts >>
+  - check_health:
+      profile_name: << parameters.profile_name >>
+      aws_region_to_check: << parameters.aws_region_to_check >>
+      max_poll_attempts: << parameters.max_poll_attempts >>
 
