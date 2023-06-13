@@ -26,7 +26,7 @@ steps:
   - run:
       name: Checking Health of AWS << parameters.aws_region_to_check >>
       environment:
-        ORB_EVAL_REGION_TO_CHECK: << parameters.aws_region_to_check >>
-        ORB_VAL_MAX_POLL_ATTEMPTS: << parameters.max_poll_attempts >>
-        ORB_EVAL_PROFILE: << parameters.profile_name >>
+        ORB_STR_REGION_TO_CHECK: << parameters.aws_region_to_check >>
+        ORB_INT_MAX_POLL_ATTEMPTS: << parameters.max_poll_attempts >>
+        ORB_STR_PROFILE: << parameters.profile_name >>
       command: << include(scripts/check_health.sh) >>
