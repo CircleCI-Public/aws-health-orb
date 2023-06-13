@@ -7,7 +7,7 @@ usage:
   orbs:
     aws-health: circleci/aws-health@1.0
     # Importing aws-cli orb is required for authentication
-    aws-cli: circleci/aws-cli@3.1
+    aws-cli: circleci/aws-cli@4.0
 
   workflows:
     check_health_and_deploy:
