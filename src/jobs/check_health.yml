@@ -25,14 +25,11 @@ parameters:
       The authentication method used to access your AWS account. Import the aws-cli orb in your config and
       provide the aws-cli/setup command to authenticate with your preferred method. View examples for more information.
     type: steps
-  image_tag:
-    description: >
-      The tag for the cimg/aws image. It defaults to 2023.03. For more information, please visit the image registry at
-      https://circleci.com/developer/images/image/cimg/aws
-    type: string
-    default: "2023.03"
-docker:
-  - image: cimg/aws:<< parameters.image_tag >>
+  executor:
+    description: The executor to use for this job. By default, this will use the "default" executor provided by this orb.
+    type: executor
+    default: default
+executor: << parameters.executor >>
 steps:
   - steps: << parameters.auth >>
   - check_health:
